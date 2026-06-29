@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Saveurs du Monde — Cuisine Européenne & Africaine</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap');
+
+  :root {
+    --saffron:    #C8813A;
+    --terracotta: #8B3A2A;
+    --gold:       #D4A843;
+    --cream:      #FAF6EE;
+    --ink:        #1A1208;
+    --muted:      #7A6A56;
+    --card-bg:    #FFFFFF;
+    --border:     #E8DFD0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 40px;
+    background: rgba(250,246,238,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .logo { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--saffron); letter-spacing: .02em; }
+  .logo span { color: var(--ink); }
+  .nav-tabs { display: flex; gap: 6px; }
+  .tab {
+    padding: 8px 18px; border-radius: 100px; border: none; cursor: pointer;
+    font-family: 'Inter', sans-serif; font-size: .85rem; font-weight: 500;
+    transition: all .2s;
+    background: transparent; color: var(--muted);
+  }
+  .tab.active, .tab:hover { background: var(--saffron); color: #fff; }
+  .search-bar {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--border); border-radius: 100px; padding: 8px 18px;
+  }
+  .search-bar input {
+    border: none; background: transparent; outline: none;
+    font-family: 'Inter', sans-serif; font-size: .85rem; color: var(--ink); width: 160px;
+  }
+  .search-bar input::placeholder { color: var(--muted); }
+
+  /* ─── HERO ─── */
+  .hero {
+    height: 100vh;
+    display: grid; place-items: center;
+    background:
+      linear-gradient(to bottom, rgba(26,18,8,.55) 0%, rgba(26,18,8,.3) 60%, var(--cream) 100%),
+      url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1600&q=80') center/cover no-repeat;
+    text-align: center; padding: 100px 20px 60px;
+  }
+  .hero-eyebrow {
+    display: inline-block; margin-bottom: 20px;
+    padding: 6px 20px; border-radius: 100px;
+    border: 1px solid rgba(212,168,67,.7);
+    color: var(--gold); font-size: .78rem; letter-spacing: .14em; text-transform: uppercase;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.8rem, 6vw, 5.5rem);
+    color: #fff; line-height: 1.1; margin-bottom: 22px;
+    text-shadow: 0 2px 20px rgba(0,0,0,.4);
+  }
+  .hero h1 em { color: var(--gold); font-style: italic; }
+  .hero p {
+    color: rgba(255,255,255,.82); font-size: 1.1rem; max-width: 520px;
+    margin: 0 auto 40px; line-height: 1.7;
+  }
+  .hero-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+  .btn-primary {
+    padding: 14px 34px; border-radius: 100px; border: none; cursor: pointer;
+    background: var(--saffron); color: #fff; font-weight: 600; font-size: .95rem;
+    font-family: 'Inter', sans-serif; transition: all .22s;
+    box-shadow: 0 4px 20px rgba(200,129,58,.4);
+  }
+  .btn-primary:hover { background: var(--terracotta); transform: translateY(-2px); }
+  .btn-ghost {
+    padding: 14px 34px; border-radius: 100px; cursor: pointer;
+    border: 1.5px solid rgba(255,255,255,.6); background: transparent;
+    color: #fff; font-weight: 500; font-size: .95rem;
+    font-family: 'Inter', sans-serif; transition: all .22s;
+  }
+  .btn-ghost:hover { background: rgba(255,255,255,.12); }
+
+  /* ─── STATS STRIP ─── */
+  .stats {
+    display: flex; justify-content: center; gap: 60px;
+    padding: 36px 40px;
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+  .stat { text-align: center; }
+  .stat-num { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--saffron); }
+  .stat-label { font-size: .78rem; color: var(--muted); letter-spacing: .08em; text-transform: uppercase; margin-top: 2px; }
+
+  /* ─── MAIN CONTENT ─── */
+  main { max-width: 1280px; margin: 0 auto; padding: 60px 40px; }
+  .section-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 32px; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; }
+  .see-all { color: var(--saffron); font-size: .85rem; font-weight: 600; cursor: pointer; text-decoration: none; }
+
+  /* ─── FEATURED GRID ─── */
+  .featured-grid {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 20px;
+    margin-bottom: 70px;
+  }
+  .card {
+    border-radius: 16px; overflow: hidden; cursor: pointer;
+    box-shadow: 0 2px 12px rgba(26,18,8,.08);
+    transition: transform .25s, box-shadow .25s;
+    position: relative;
+    background: var(--card-bg);
+  }
+  .card:hover { transform: translateY(-5px); box-shadow: 0 12px 32px rgba(26,18,8,.14); }
+  .card.large { grid-row: span 2; }
+  .card img { width: 100%; object-fit: cover; display: block; }
+  .card.large img { height: 480px; }
+  .card:not(.large) img { height: 200px; }
+  .card-body { padding: 18px 20px 20px; }
+  .card-region {
+    display: inline-block; margin-bottom: 8px;
+    padding: 3px 12px; border-radius: 100px;
+    font-size: .72rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+  }
+  .tag-eu { background: #EFF4FF; color: #3B5BDB; }
+  .tag-af { background: #FFF3E0; color: #C8813A; }
+  .card h3 { font-family: 'Playfair Display', serif; font-size: 1.15rem; margin-bottom: 6px; line-height: 1.3; }
+  .card.large h3 { font-size: 1.5rem; }
+  .card p { color: var(--muted); font-size: .82rem; line-height: 1.6; }
+  .card-meta {
+    display: flex; align-items: center; gap: 16px; margin-top: 14px;
+    font-size: .78rem; color: var(--muted);
+  }
+  .card-meta span { display: flex; align-items: center; gap: 5px; }
+  .badge-diff {
+    position: absolute; top: 14px; right: 14px;
+    padding: 4px 12px; border-radius: 100px;
+    font-size: .72rem; font-weight: 700;
+    backdrop-filter: blur(8px);
+  }
+  .diff-easy { background: rgba(52,199,89,.9); color: #fff; }
+  .diff-medium { background: rgba(255,149,0,.9); color: #fff; }
+  .diff-hard { background: rgba(255,59,48,.9); color: #fff; }
+
+  /* ─── RECIPE MODAL ─── */
+  .overlay {
+    display: none; position: fixed; inset: 0; z-index: 200;
+    background: rgba(26,18,8,.7); backdrop-filter: blur(4px);
+    align-items: center; justify-content: center; padding: 20px;
+  }
+  .overlay.open { display: flex; }
+  .modal {
+    background: var(--cream); border-radius: 24px; max-width: 680px; width: 100%;
+    max-height: 90vh; overflow-y: auto;
+    box-shadow: 0 32px 80px rgba(0,0,0,.3);
+  }
+  .modal-img { width: 100%; height: 280px; object-fit: cover; border-radius: 24px 24px 0 0; }
+  .modal-body { padding: 36px; }
+  .modal-region { font-size: .8rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 10px; }
+  .modal-title { font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 12px; }
+  .modal-desc { color: var(--muted); line-height: 1.7; margin-bottom: 28px; }
+  .modal-meta { display: flex; gap: 24px; margin-bottom: 32px; flex-wrap: wrap; }
+  .meta-item { text-align: center; }
+  .meta-val { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--saffron); }
+  .meta-lbl { font-size: .72rem; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; }
+  .modal h4 { font-family: 'Playfair Display', serif; font-size: 1.15rem; margin-bottom: 14px; margin-top: 24px; }
+  .ingredient-list { list-style: none; }
+  .ingredient-list li {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 0; border-bottom: 1px solid var(--border);
+    font-size: .9rem;
+  }
+  .ingredient-list li::before {
+    content: ''; width: 8px; height: 8px; border-radius: 50%;
+    background: var(--saffron); flex-shrink: 0;
+  }
+  .steps-list { list-style: none; counter-reset: steps; }
+  .steps-list li {
+    counter-increment: steps;
+    display: flex; gap: 18px; margin-bottom: 20px; align-items: flex-start;
+  }
+  .steps-list li::before {
+    content: counter(steps);
+    display: flex; align-items: center; justify-content: center;
+    width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
+    background: var(--saffron); color: #fff;
+    font-weight: 700; font-size: .85rem;
+  }
+  .steps-list li p { font-size: .9rem; line-height: 1.7; color: var(--muted); padding-top: 5px; }
+  .close-btn {
+    position: absolute; top: 20px; right: 20px;
+    width: 40px; height: 40px; border-radius: 50%; border: none; cursor: pointer;
+    background: rgba(255,255,255,.9); font-size: 1.2rem;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,.2);
+  }
+  .modal-wrapper { position: relative; }
+
+  /* ─── REGIONS SECTION ─── */
+  .regions { margin-bottom: 70px; }
+  .region-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
+  .region-card {
+    border-radius: 14px; overflow: hidden; cursor: pointer;
+    position: relative; height: 130px;
+    transition: transform .2s;
+  }
+  .region-card:hover { transform: scale(1.03); }
+  .region-card img { width: 100%; height: 100%; object-fit: cover; }
+  .region-label {
+    position: absolute; inset: 0; display: flex; align-items: flex-end;
+    padding: 16px;
+    background: linear-gradient(to top, rgba(26,18,8,.75) 0%, transparent 60%);
+    color: #fff; font-family: 'Playfair Display', serif; font-size: 1.05rem;
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    border-top: 1px solid var(--border); padding: 36px 40px;
+    text-align: center; color: var(--muted); font-size: .82rem;
+  }
+  footer strong { color: var(--saffron); font-family: 'Playfair Display', serif; font-size: 1rem; }
+
+  /* ─── PAGE VIEWS ─── */
+  .page { display: none; }
+  .page.active { display: block; }
+  #hero-section { display: block; }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    .featured-grid { grid-template-columns: 1fr 1fr; }
+    .card.large { grid-row: span 1; grid-column: span 2; }
+    .card.large img { height: 280px; }
+    nav { padding: 14px 20px; }
+    main { padding: 40px 20px; }
+  }
+  @media (max-width: 600px) {
+    .featured-grid { grid-template-columns: 1fr; }
+    .card.large { grid-column: span 1; }
+    .stats { gap: 28px; }
+    .nav-tabs { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Saveurs<span> du Monde</span></div>
+  <div class="nav-tabs">
+    <button class="tab active" onclick="showPage('accueil')">Accueil</button>
+    <button class="tab" onclick="showPage('europeenne')">Européenne</button>
+    <button class="tab" onclick="showPage('africaine')">Africaine</button>
+    <button class="tab" onclick="showPage('rapides')">Rapides</button>
+  </div>
+  <div class="search-bar">
+    <svg width="14" height="14" fill="none" stroke="#7A6A56" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+    <input type="text" placeholder="Rechercher une recette…" oninput="filterRecipes(this.value)">
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero-section">
+  <div class="hero">
+    <div>
+      <div class="hero-eyebrow">🌍 Europe & Afrique — 120 recettes authentiques</div>
+      <h1>L'art de cuisiner<br><em>sans frontières</em></h1>
+      <p>Des plats traditionnels européens aux saveurs envoûtantes d'Afrique, voyagez à travers les cuisines du monde depuis votre foyer.</p>
+      <div class="hero-btns">
+        <button class="btn-primary" onclick="showPage('accueil'); scrollToRecipes()">Découvrir les recettes</button>
+        <button class="btn-ghost" onclick="showPage('africaine')">Spécialités africaines →</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="stat-num">120</div><div class="stat-label">Recettes</div></div>
+    <div class="stat"><div class="stat-num">28</div><div class="stat-label">Pays représentés</div></div>
+    <div class="stat"><div class="stat-num">6</div><div class="stat-label">Régions culinaires</div></div>
+    <div class="stat"><div class="stat-num">★ 4.9</div><div class="stat-label">Note moyenne</div></div>
+  </div>
+</section>
+
+<!-- MAIN -->
+<main>
+
+  <!-- ACCUEIL PAGE -->
+  <div id="page-accueil" class="page active">
+
+    <!-- FEATURED -->
+    <div id="recipes-section">
+      <div class="section-header">
+        <h2 class="section-title">Recettes à la une</h2>
+        <a class="see-all" onclick="showPage('europeenne')">Voir tout →</a>
+      </div>
+      <div class="featured-grid" id="featured-grid"></div>
+    </div>
+
+    <!-- REGIONS -->
+    <div class="regions">
+      <div class="section-header">
+        <h2 class="section-title">Explorer par région</h2>
+      </div>
+      <div class="region-cards">
+        <div class="region-card" onclick="showPage('africaine')">
+          <img src="https://images.unsplash.com/photo-1518779578993-ec3579fee39f?w=400&q=75" alt="Afrique de l'Ouest">
+          <div class="region-label">Afrique de l'Ouest</div>
+        </div>
+        <div class="region-card" onclick="showPage('africaine')">
+          <img src="https://images.unsplash.com/photo-1565299507177-b0ac66763828?w=400&q=75" alt="Afrique du Nord">
+          <div class="region-label">Afrique du Nord</div>
+        </div>
+        <div class="region-card" onclick="showPage('africaine')">
+          <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400&q=75" alt="Afrique Centrale">
+          <div class="region-label">Afrique Centrale</div>
+        </div>
+        <div class="region-card" onclick="showPage('europeenne')">
+          <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&q=75" alt="Europe du Sud">
+          <div class="region-label">Europe du Sud</div>
+        </div>
+        <div class="region-card" onclick="showPage('europeenne')">
+          <img src="https://images.unsplash.com/photo-1600891964092-4316c288032e?w=400&q=75" alt="Europe de l'Ouest">
+          <div class="region-label">Europe de l'Ouest</div>
+        </div>
+        <div class="region-card" onclick="showPage('europeenne')">
+          <img src="https://images.unsplash.com/photo-1476124369491-e7addf5db371?w=400&q=75" alt="Europe de l'Est">
+          <div class="region-label">Europe de l'Est</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EUROPÉENNE PAGE -->
+  <div id="page-europeenne" class="page">
+    <div class="section-header">
+      <h2 class="section-title">🇪🇺 Cuisine Européenne</h2>
+    </div>
+    <div class="featured-grid" id="eu-grid"></div>
+  </div>
+
+  <!-- AFRICAINE PAGE -->
+  <div id="page-africaine" class="page">
+    <div class="section-header">
+      <h2 class="section-title">🌍 Cuisine Africaine</h2>
+    </div>
+    <div class="featured-grid" id="af-grid"></div>
+  </div>
+
+  <!-- RAPIDES PAGE -->
+  <div id="page-rapides" class="page">
+    <div class="section-header">
+      <h2 class="section-title">⚡ Recettes Rapides (−30 min)</h2>
+    </div>
+    <div class="featured-grid" id="fast-grid"></div>
+  </div>
+
+</main>
+
+<!-- MODAL -->
+<div class="overlay" id="modal-overlay" onclick="closeModal(event)">
+  <div class="modal-wrapper">
+    <button class="close-btn" onclick="closeModal()">✕</button>
+    <div class="modal" id="modal-content"></div>
+  </div>
+</div>
+
+<footer>
+  <strong>Saveurs du Monde</strong><br><br>
+  120 recettes authentiques · Cuisine Européenne & Africaine · Fait avec ❤️
+</footer>
+
+<script>
+const recipes = [
+  {
+    id:1, title:"Coq au Vin", region:"France", continent:"eu",
+    img:"https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=75",
+    desc:"Un grand classique de la gastronomie française — poulet mijoté au vin rouge avec lardons et champignons.",
+    time:90, servings:4, difficulty:"Moyen", featured:true,
+    ingredients:["1 poulet fermier coupé en morceaux","75 cl de vin rouge","200 g de lardons fumés","300 g de champignons de Paris","2 carottes","2 oignons","3 gousses d'ail","Bouquet garni","Huile d'olive","Sel, poivre"],
+    steps:["Faire dorer les lardons et les champignons dans une cocotte. Réserver.","Faire revenir les morceaux de poulet sur toutes leurs faces jusqu'à coloration dorée.","Ajouter les légumes, l'ail et le bouquet garni. Flamber éventuellement au cognac.","Verser le vin rouge, couvrir et laisser mijoter à feu doux 60 minutes.","Ajouter les lardons et champignons en fin de cuisson. Ajuster l'assaisonnement et servir."]
+  },
+  {
+    id:2, title:"Thiéboudienne", region:"Sénégal", continent:"af",
+    img:"https://images.unsplash.com/photo-1565299507177-b0ac66763828?w=800&q=75",
+    desc:"Le plat national sénégalais — riz cuit dans une sauce tomate parfumée avec poisson et légumes.",
+    time:75, servings:6, difficulty:"Moyen", featured:true,
+    ingredients:["1 kg de poisson (thiof ou capitaine)","600 g de riz brisé","400 g de concentré de tomate","2 oignons","1 chou","3 carottes","2 aubergines","Piment, bissap","Huile d'arachide","Sélim, soumbala"],
+    steps:["Préparer le poisson : inciser et farcir avec un mélange d'ail, piment et persil (rof). Faire frire jusqu'à dorure.","Faire revenir les oignons dans l'huile, ajouter le concentré de tomate, cuire 10 min.","Ajouter de l'eau, les légumes et les épices. Cuire 20 min.","Retirer les légumes et le poisson, cuire le riz dans le bouillon jusqu'à absorption totale.","Dresser : riz au fond, poisson et légumes par-dessus. Servir avec sauce et citron."]
+  },
+  {
+    id:3, title:"Paella Valenciana", region:"Espagne", continent:"eu",
+    img:"https://images.unsplash.com/photo-1534080564583-6be75777b70a?w=800&q=75",
+    desc:"La paella authentique de Valence — riz crémeux au safran, lapin, poulet et haricots verts.",
+    time:60, servings:4, difficulty:"Moyen",
+    ingredients:["400 g de riz bomba","300 g de poulet","200 g de lapin","150 g de haricots verts","100 g de haricots beurre","400 g de tomates","Safran","Paprika fumé","Romarin","Huile d'olive extra-vierge"],
+    steps:["Chauffer l'huile dans la paellera, dorer le poulet et le lapin.","Ajouter les légumes, faire revenir. Incorporer la tomate et le paprika.","Verser le bouillon chaud, ajouter le safran infusé. Porter à ébullition.","Ajouter le riz, répartir uniformément. Cuire 18 min sans remuer.","Laisser reposer 5 min couvert d'aluminium. Le fond doit être légèrement caramélisé (socarrat)."]
+  },
+  {
+    id:4, title:"Jollof Rice", region:"Ghana", continent:"af",
+    img:"https://images.unsplash.com/photo-1518779578993-ec3579fee39f?w=800&q=75",
+    desc:"Le riz jollof ouest-africain — fumé, épicé et d'une couleur rouge profonde. Un incontournable festif.",
+    time:50, servings:6, difficulty:"Facile",
+    ingredients:["500 g de riz long grain","400 g de tomates","200 g de concentré de tomate","2 poivrons rouges","2 oignons","Bouillon de poulet","Gingembre, ail","Épices mélangées","Laurier","Huile végétale"],
+    steps:["Mixer tomates, poivrons et oignons. Cuire la purée 15 min dans l'huile chaude.","Ajouter le concentré de tomate et les épices. Cuire encore 10 min.","Verser le bouillon, porter à ébullition. Ajouter le riz lavé.","Couvrir hermétiquement, cuire à feu doux 25 min. Le fond fumé est une signature.","Mélanger délicatement avant de servir. Accompagner de poulet grillé ou de plantains."]
+  },
+  {
+    id:5, title:"Pasta Carbonara", region:"Italie", continent:"eu",
+    img:"https://images.unsplash.com/photo-1612874742237-6526221588e3?w=800&q=75",
+    desc:"La vraie carbonara romaine — spaghetti, guanciale, œufs et pecorino. Aucune crème fraîche à l'horizon.",
+    time:25, servings:2, difficulty:"Facile", fast:true,
+    ingredients:["200 g de spaghetti","100 g de guanciale","3 jaunes d'œuf + 1 œuf entier","80 g de pecorino romano râpé","Poivre noir concassé","Sel (pour l'eau de cuisson)"],
+    steps:["Cuire les pâtes al dente dans de l'eau très salée. Réserver 200 ml d'eau de cuisson.","Faire rissoler le guanciale à sec jusqu'à ce qu'il soit croustillant. Réserver la graisse.","Fouetter œufs + pecorino + poivre. Délayer avec un peu d'eau de cuisson tiède.","Mélanger pâtes chaudes + graisse du guanciale hors du feu. Ajouter la crème d'œufs en remuant vite.","Ajouter le guanciale, ajuster la texture avec l'eau de cuisson. Servir immédiatement."]
+  },
+  {
+    id:6, title:"Tagine d'Agneau", region:"Maroc", continent:"af",
+    img:"https://images.unsplash.com/photo-1547592180-85f173990554?w=800&q=75",
+    desc:"Tagine marocain traditionnel aux pruneaux et amandes — fondant, parfumé au ras el hanout.",
+    time:120, servings:4, difficulty:"Facile",
+    ingredients:["800 g d'épaule d'agneau","200 g de pruneaux","100 g d'amandes émondées","2 oignons","Ras el hanout","Gingembre","Cannelle","Coriandre fraîche","Huile d'olive","Miel"],
+    steps:["Faire revenir l'agneau coupé en morceaux avec les oignons et les épices.","Couvrir d'eau, cuire à feu doux 45 min jusqu'à ce que la viande soit tendre.","Ajouter les pruneaux et le miel. Continuer la cuisson 20 min.","Faire dorer les amandes à sec dans une poêle.","Dresser dans le plat à tagine, parsemer d'amandes et de coriandre. Servir avec couscous."]
+  },
+  {
+    id:7, title:"Bœuf Bourguignon", region:"France", continent:"eu",
+    img:"https://images.unsplash.com/photo-1600891964092-4316c288032e?w=800&q=75",
+    desc:"La quintessence de la cuisine bourguignonne — bœuf braisé au vin de Bourgogne, légumes et herbes.",
+    time:180, servings:6, difficulty:"Difficile",
+    ingredients:["1.5 kg de bœuf à braiser (paleron)","75 cl de vin de Bourgogne","200 g de lardons","300 g de champignons","20 petits oignons grelots","3 carottes","Farine","Bouquet garni","Beurre","Sel, poivre"],
+    steps:["Faire mariner le bœuf coupé en cubes dans le vin toute une nuit avec les légumes.","Égoutter, sécher et faire dorer les morceaux de bœuf. Singer avec la farine.","Verser la marinade, ajouter le bouquet garni. Porter à ébullition, puis enfourner à 160°C.","Cuire 2h30 au four. Ajouter champignons et oignons grelots 30 min avant la fin.","Dégraisser, ajuster l'assaisonnement. Servir avec pommes de terre vapeur."]
+  },
+  {
+    id:8, title:"Ndolé Camerounais", region:"Cameroun", continent:"af",
+    img:"https://images.unsplash.com/photo-1476124369491-e7addf5db371?w=800&q=75",
+    desc:"Le plat national camerounais — feuilles de ndolé (amarante) aux crevettes, bœuf et arachides.",
+    time:90, servings:4, difficulty:"Moyen",
+    ingredients:["500 g de feuilles de ndolé (surgelées)","300 g de crevettes","300 g de viande de bœuf","200 g d'arachides décortiquées","3 oignons","Ail, gingembre","Piment","Poisson fumé (optionnel)","Huile de palme","Sel"],
+    steps:["Faire bouillir les feuilles de ndolé dans de l'eau salée 3 fois de suite pour enlever l'amertume.","Moudre les arachides. Faire revenir oignons, ail et gingembre dans l'huile de palme.","Ajouter la viande et les crevettes, faire dorer. Incorporer les arachides moulues.","Ajouter les feuilles de ndolé essorées et le poisson fumé. Mouiller légèrement.","Laisser mijoter 30 min à feu doux. Servir avec du plantain ou du bâton de manioc."]
+  },
+  {
+    id:9, title:"Ratatouille Niçoise", region:"France", continent:"eu",
+    img:"https://images.unsplash.com/photo-1572453800999-e8d2d1589b7c?w=800&q=75",
+    desc:"La ratatouille provençale authentique — courgettes, aubergines et poivrons confits à l'huile d'olive.",
+    time:30, servings:4, difficulty:"Facile", fast:true,
+    ingredients:["2 courgettes","2 aubergines","3 poivrons colorés","4 tomates bien mûres","2 oignons","4 gousses d'ail","Thym, romarin, basilic","Huile d'olive","Sel, poivre"],
+    steps:["Couper tous les légumes en dés réguliers. Saler légèrement les aubergines, laisser dégorger.","Faire revenir chaque légume séparément dans l'huile d'olive pour qu'ils gardent leur goût.","Réunir tous les légumes dans la cocotte avec l'ail et les herbes.","Cuire à feu doux 20 min en remuant de temps en temps.","Ajuster l'assaisonnement. Meilleures réchauffées le lendemain avec du pain grillé."]
+  },
+  {
+    id:10, title:"Soupe Egusi", region:"Nigeria", continent:"af",
+    img:"https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=800&q=75",
+    desc:"Soupe épaisse aux graines de courge moulues, épinards et viande — un pilier de la cuisine yoruba.",
+    time:45, servings:4, difficulty:"Moyen", fast:true,
+    ingredients:["200 g de graines d'egusi moulues","300 g de viande de bœuf ou chèvre","100 g de crevettes séchées","1 bouquet d'épinards ou de feuilles d'ugu","2 oignons","Piment fort","Huile de palme","Bouillon","Ogiri (locust beans)"],
+    steps:["Faire revenir l'egusi moulu dans l'huile de palme jusqu'à formation de grumeaux dorés.","Ajouter l'oignon, le piment, le bouillon de viande. Cuire 15 min.","Incorporer la viande précuite et les crevettes séchées. Continuer la cuisson.","Ajouter les légumes verts en dernier. Cuire 5 min.","Servir avec eba (farine de manioc), pounded yam ou riz."]
+  },
+];
+
+function buildCard(r, large=false) {
+  const tagClass = r.continent==='eu' ? 'tag-eu' : 'tag-af';
+  const diffClass = r.difficulty==='Facile' ? 'diff-easy' : r.difficulty==='Moyen' ? 'diff-medium' : 'diff-hard';
+  return `
+    <div class="card${large?' large':''}" onclick="openModal(${r.id})">
+      <img src="${r.img}" alt="${r.title}" loading="lazy">
+      <span class="badge-diff ${diffClass}">${r.difficulty}</span>
+      <div class="card-body">
+        <span class="card-region ${tagClass}">${r.region}</span>
+        <h3>${r.title}</h3>
+        <p>${r.desc.substring(0,90)}…</p>
+        <div class="card-meta">
+          <span>⏱️ ${r.time} min</span>
+          <span>👥 ${r.servings} pers.</span>
+        </div>
+      </div>
+    </div>`;
+}
+
+function renderGrid(containerId, items, featuredFirst=false) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+  let html = '';
+  items.forEach((r, i) => {
+    html += buildCard(r, featuredFirst && i===0);
+  });
+  el.innerHTML = html;
+}
+
+renderGrid('featured-grid', recipes.slice(0,5), true);
+renderGrid('eu-grid', recipes.filter(r=>r.continent==='eu'), true);
+renderGrid('af-grid', recipes.filter(r=>r.continent==='af'), true);
+renderGrid('fast-grid', recipes.filter(r=>r.fast||r.time<=30), false);
+
+function openModal(id) {
+  const r = recipes.find(x=>x.id===id);
+  if (!r) return;
+  const tagClass = r.continent==='eu' ? 'tag-eu' : 'tag-af';
+  document.getElementById('modal-content').innerHTML = `
+    <img class="modal-img" src="${r.img}" alt="${r.title}">
+    <div class="modal-body">
+      <div class="modal-region ${tagClass}">${r.continent==='eu'?'🇪🇺':'🌍'} ${r.region}</div>
+      <div class="modal-title">${r.title}</div>
+      <div class="modal-desc">${r.desc}</div>
+      <div class="modal-meta">
+        <div class="meta-item"><div class="meta-val">${r.time}</div><div class="meta-lbl">Minutes</div></div>
+        <div class="meta-item"><div class="meta-val">${r.servings}</div><div class="meta-lbl">Personnes</div></div>
+        <div class="meta-item"><div class="meta-val">${r.difficulty}</div><div class="meta-lbl">Difficulté</div></div>
+      </div>
+      <h4>Ingrédients</h4>
+      <ul class="ingredient-list">${r.ingredients.map(i=><li>${i}</li>).join('')}</ul>
+      <h4>Préparation</h4>
+      <ol class="steps-list">${r.steps.map(s=><li><p>${s}</p></li>).join('')}</ol>
+    </div>`;
+  document.getElementById('modal-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(e) {
+  if (e && e.target !== document.getElementById('modal-overlay') && !e.target.classList.contains('close-btn')) return;
+  document.getElementById('modal-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  const pg = document.getElementById('page-'+name);
+  if (pg) pg.classList.add('active');
+  document.querySelectorAll('.tab').forEach(t => { if(t.textContent.toLowerCase().includes(name)||
+    (name==='accueil'&&t.textContent==='Accueil')||(name==='rapides'&&t.textContent==='Rapides')) t.classList.add('active'); });
+  document.getElementById('hero-section').style.display = name==='accueil' ? 'block' : 'none';
+  window.scrollTo({top: name==='accueil' ? 0 : 80, behavior:'smooth'});
+}
+
+function scrollToRecipes() {
+  document.getElementById('recipes-section').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function filterRecipes(q) {
+  if (!q) { renderGrid('featured-grid', recipes.slice(0,5), true); return; }
+  const filtered = recipes.filter(r =>
+    r.title.toLowerCase().includes(q.toLowerCase()) ||
+    r.region.toLowerCase().includes(q.toLowerCase()) ||
+    r.desc.toLowerCase().includes(q.toLowerCase())
+  );
+  showPage('accueil');
+  renderGrid('featured-grid', filtered.slice(0,6), false);
+}
+</script>
+<script src="app.js"></script>
+</body>
+</html>
